@@ -4,13 +4,13 @@
 
 # Detroit Ring
 
-**A _Detroit: Become Human_ android-LED status ring for [Claude Code](https://github.com/anthropics/claude-code).**
+**A status ring for [Claude Code](https://github.com/anthropics/claude-code), styled after the android LED from _Detroit: Become Human_.**
 
-Your terminal grows a glowing ring on the desktop: it **spins blue** while the agent works,
-turns **amber** when it needs you, and **pulses green** the moment it's done — so you can walk
-away and know, at a glance, exactly what your session is doing.
+It puts a small glowing ring on your desktop, one per Claude Code session. Blue while it's
+working, amber when it's waiting on you, green when it's finished. Glance over, know where things
+stand, get back to whatever you were doing.
 
-Native macOS. No Electron, no menu-bar clutter, no web page. Just the ring.
+Native macOS app. No Electron, no menu-bar icon, no browser tab.
 
 ![macOS](https://img.shields.io/badge/macOS-13%2B%20·%20Apple%20Silicon-000000?logo=apple&logoColor=white)
 ![Swift](https://img.shields.io/badge/Swift-AppKit%20%2B%20SwiftUI-F05138?logo=swift&logoColor=white)
@@ -23,44 +23,39 @@ Native macOS. No Electron, no menu-bar clutter, no web page. Just the ring.
 
 ---
 
-## Why
+## What it's for
 
-You give Claude Code a long task and tab away. Then you keep tabbing *back* — "is it still
-going? is it stuck waiting on me? is it finally done?"
+You kick off a long task in Claude Code and switch to something else. The annoying part is not
+knowing what happened while you were away: still grinding, blocked on a prompt, or done ages ago?
 
-Detroit Ring answers that without you looking at the terminal at all. A small glass capsule
-floats on your desktop with **one ring per live session**. The ring's color and motion *are*
-the status, lifted straight from the androids' temple LED in _Detroit: Become Human_:
+Detroit Ring sits in the corner of your screen and answers that without you opening the terminal.
+The color and motion are the status, copied from the temple LED the androids wear in the game:
 
-- 🔵 **spinning blue** — working
-- 🟡 **amber** — waiting for you
-- 🟢 **pulsing green** — just finished
+- 🔵 blue, spinning — working
+- 🟡 amber — waiting for you
+- 🟢 green, pulsing — just finished
 
-And the instant real work completes, a quiet macOS **notification** fires — so even if you're
-deep in another app, you know the second it's ready. The ring holds green for a few minutes, then
-settles into a calm standby glow.
+When real work wraps up it also fires a quiet macOS notification, so you'll know even if you're in
+another app. The ring holds green for a few minutes and then settles into a dim standby glow.
 
 ## Features
 
-- **🎯 Glance-able status.** Five states — working / waiting / done / error / idle — each an
-  unmistakable color and motion. No reading required.
-- **🪟 One ring per session.** Run three Claude Code sessions, see three rings stacked in the
-  capsule. Each tracks its own session independently.
-- **🖐️ Drag it anywhere.** Free-floating glass capsule, defaults to the top-right. Drag it where
-  you like — the position is remembered and always clamped on-screen.
-- **🔔 Done notification.** A native banner fires only when *real* work completes (≥15s of actual
-  work, idle time excluded) — no spam on tiny one-shot prompts.
-- **🤫 Quiet by design.** It's an `LSUIElement` agent: no Dock icon, no menu-bar item, no window
-  chrome. The capsule auto-hides when no session is live (an open-but-idle session keeps a dim
-  standby ring).
-- **🎨 Pixel-faithful LED.** The ring is drawn analytically (no random jitter), so what you see is
-  deterministic and crisp at any size — Retina-sharp glow and all.
-- **🥚 Eleven hidden Easter eggs.** Ambient _Detroit_ references that occasionally flicker across
-  the ring while it works. (See below. They're the fun part.)
-- **🔌 Pushed by Claude Code hooks.** No API polling, no network, no API keys. Claude Code's
-  lifecycle hooks push status into tiny local state files; the app just watches that one folder.
-- **♻️ Fully reversible.** Three install scripts, three uninstall paths. It never touches anything
-  it can't cleanly undo.
+- Five states (working / waiting / done / error / idle), each its own color and motion.
+- One ring per live session. Three sessions running means three rings stacked in the capsule,
+  each tracking its own.
+- Drag the capsule wherever you want. It defaults to the top-right, remembers where you put it,
+  and stays clamped on-screen.
+- A done notification fires only after real work finishes (at least 15s of actual work, waiting
+  time excluded), so short prompts don't spam you.
+- Runs as an `LSUIElement` agent: no Dock icon, no menu-bar item, no window chrome. The capsule
+  hides itself when no session is live; an open-but-idle session keeps a dim ring.
+- The ring is drawn analytically with no random jitter, so it's deterministic and stays crisp at
+  any size.
+- Eleven hidden _Detroit_ easter eggs that drift across the ring now and then while it works (see
+  below). Off with a right-click if you'd rather not.
+- Driven entirely by Claude Code's hooks. No API polling, no network, no API keys; the app just
+  watches a small folder of state files the hooks write.
+- Reversible: three install scripts, three matching uninstall steps, nothing it can't undo.
 
 ## The five states
 
@@ -68,22 +63,22 @@ settles into a calm standby glow.
 <tr>
 <td align="center"><img src="docs/state-working.png" width="120" alt="Working state: blue rotating ring"/><br/><b>Working</b><br/><sub>blue, rotating segments</sub></td>
 <td align="center"><img src="docs/state-waiting.png" width="120" alt="Waiting state: amber ring"/><br/><b>Waiting for you</b><br/><sub>amber sweep</sub></td>
-<td align="center"><img src="docs/state-done.png" width="120" alt="Done state: green ring"/><br/><b>Done</b><br/><sub>green pulse → standby</sub></td>
+<td align="center"><img src="docs/state-done.png" width="120" alt="Done state: green ring"/><br/><b>Done</b><br/><sub>green pulse, then standby</sub></td>
 <td align="center"><img src="docs/state-error.png" width="120" alt="Error state: red ring"/><br/><b>Error</b><br/><sub>red, softened</sub></td>
 <td align="center"><img src="docs/state-idle.png" width="120" alt="Idle state: dim blue ring"/><br/><b>Idle</b><br/><sub>dim standby</sub></td>
 </tr>
 </table>
 
-> The full capsule with several live rings:
+> The capsule with a few live rings:
 >
 > <img src="docs/hero-strip.png" width="170" alt="Detroit Ring capsule with multiple stacked rings" />
 
-## Easter eggs 🥚
+## Easter eggs
 
-While the ring works, ambient _Detroit: Become Human_ moments occasionally play over it — a
-deviant glitch, a flash of **rA9**, Connor's coin flip, Markus's paint sweep, Kara's guardian
-light, a celebratory salvo when everything finishes, even Detroit snow. They're rare, never
-interrupt a real status, and you can toggle them off with a right-click.
+Once in a while, an ambient _Detroit: Become Human_ moment plays over a working ring: a deviant
+glitch, a flash of **rA9**, Connor's coin flip, Markus's paint sweep, Kara's guardian light, a
+salvo when everything finishes, some Detroit snow. They're occasional, never override a real
+status, and you can turn them off from the right-click menu.
 
 <img src="docs/demo-eggs.gif" width="360" alt="Easter egg montage: deviant glitch, rA9, done salvo and Detroit snow" />
 
@@ -102,42 +97,43 @@ interrupt a real status, and you can toggle them off with a right-click.
 </tr>
 </table>
 
-<sub>Right-click the ring → toggle **Easter eggs**, or **Preview one now**.</sub>
+<sub>Right-click the ring to toggle the easter eggs or preview one.</sub>
 
 ## Install
 
-**Requirements:** macOS 13+ on Apple Silicon, [Claude Code](https://github.com/anthropics/claude-code),
-and the Swift toolchain (`xcode-select --install` if you don't have it). Python 3 ships with macOS.
+You'll need macOS 13+ on Apple Silicon, [Claude Code](https://github.com/anthropics/claude-code),
+and the Swift toolchain (run `xcode-select --install` if you don't have it). Python 3 already
+ships with macOS.
 
 ```bash
 git clone https://github.com/lhysilicon/detroit-ring.git
 cd detroit-ring
 
-# 1. compile + self-test + bundle + install the .app to ~/Applications
-#    (also installs the hook emitter to ~/.claude/ring/)
+# 1. compile, self-test, bundle, and install the .app into ~/Applications
+#    (this also drops the hook emitter into ~/.claude/ring/)
 ./build.sh
 
-# 2. wire Detroit Ring into your Claude Code hooks
-#    (preview first — writes a staging file, your settings.json is untouched)
-python3 apply_hooks.py            # dry run → settings.staging.json
-python3 apply_hooks.py --apply    # applies it; backs up the original first
+# 2. wire the ring into your Claude Code hooks
+#    run it once without --apply first to preview the change; your settings.json isn't touched
+python3 apply_hooks.py            # writes settings.staging.json so you can diff it
+python3 apply_hooks.py --apply    # applies it, backing up the original first
 
-# 3. run at login and stay alive
+# 3. start it at login and keep it running
 ./install_launchagent.sh
 ```
 
-Open a new Claude Code session and the ring appears. That's it.
+Open a new Claude Code session and the ring shows up.
 
-The app is ad-hoc signed (it's a local build), so the first launch may need a right-click → **Open**,
-or **System Settings → Privacy & Security → Open Anyway**.
+It's an ad-hoc signed local build, so the first launch may need a right-click → **Open**, or
+**System Settings → Privacy & Security → Open Anyway**.
 
-### How the install is wired
+### What each script touches
 
 | Script | What it does | Touches |
 |---|---|---|
-| `build.sh` | Compiles the Swift app, runs the self-test, builds + signs the `.app`, copies the hook emitter | `~/Applications`, `~/.claude/ring/` |
-| `apply_hooks.py` | **Additively** appends the ring hooks to your `settings.json` (existing hooks preserved; idempotent; backed up) | `~/.claude/settings.json` |
-| `install_launchagent.sh` | Generates + loads a LaunchAgent so the app starts at login | `~/Library/LaunchAgents/` |
+| `build.sh` | Compiles the app, runs the self-test, builds and signs the `.app`, copies the hook emitter | `~/Applications`, `~/.claude/ring/` |
+| `apply_hooks.py` | Appends the ring hooks to your `settings.json`. Existing hooks are kept, it's idempotent, and it backs up first | `~/.claude/settings.json` |
+| `install_launchagent.sh` | Generates and loads a LaunchAgent so the app starts at login | `~/Library/LaunchAgents/` |
 
 ## How it works
 
@@ -146,43 +142,43 @@ Claude Code hooks ──▶ ring-emit ──▶ ~/.claude/ring/sessions/<id>.jso
    (lifecycle)        (tiny py)        (one file per live session)         (SwiftUI ring)
 ```
 
-- Each Claude Code lifecycle event (`SessionStart`, `UserPromptSubmit`, `PreToolUse`, `Stop`,
-  `Notification`, `SessionEnd`, `PostToolUseFailure`) runs **`ring-emit`**, which writes a small
-  JSON state file for that session and exits immediately. Silent, no output, never blocks the agent.
-- **`DetroitRing.app`** watches that directory, keeps exactly **one ring per live session**, and
-  draws the capsule. The ring is a pure function of `(state, time)` — no random jitter — so an
-  off-screen render is byte-identical to the live one (that's how the visuals are unit-tested).
-- Headless `claude -p` calls (pipelines, automation) are detected and **suppressed**, so only the
-  interactive sessions you're actually watching get a ring.
+Every Claude Code lifecycle event (`SessionStart`, `UserPromptSubmit`, `PreToolUse`, `Stop`,
+`Notification`, `SessionEnd`, `PostToolUseFailure`) runs `ring-emit`, a small Python script that
+writes a JSON state file for the session and exits. It prints nothing and never blocks the agent.
 
-It is intentionally compact: ~2k lines of Swift plus one small Python emitter, system frameworks
-only, no third-party dependencies, no background network.
+`DetroitRing.app` watches that folder, keeps one ring per live session, and draws the capsule. The
+ring is a pure function of `(state, time)` with no randomness, so an off-screen render comes out
+byte-for-byte identical to the live one, which is how the visuals get unit-tested.
+
+Headless `claude -p` calls (pipelines, automation) are detected and skipped, so only the
+interactive sessions you're actually watching get a ring.
+
+It's about 2k lines of Swift plus the Python emitter, system frameworks only, no third-party
+dependencies and nothing talking to the network.
 
 ## Configuration
 
-Right-click the ring for the menu:
+Right-click the ring:
 
-- **Hide all terminal windows** / **Show all terminal windows** — stash or restore your terminals
-- **Easter eggs** — toggle the ambient effects on/off
-- **Preview one now** — fire a random Easter egg immediately
-- **Reset position** — snap the capsule back to the top-right
+- **Hide all terminal windows** / **Show all terminal windows**
+- **Easter eggs** — turn the ambient effects on or off
+- **Preview an easter egg** — fire one right now
+- **Reset position** — move the capsule back to the top-right
 - **Quit**
 
 Left-click a ring to raise its terminal window.
 
 ## Uninstall
 
-Everything is reversible:
-
 ```bash
-./install_launchagent.sh uninstall            # stop + remove the LaunchAgent
+./install_launchagent.sh uninstall            # stop and remove the LaunchAgent
 rm -rf ~/Applications/DetroitRing.app          # remove the app
-rm -rf ~/.claude/ring                          # remove the emitter + state files
+rm -rf ~/.claude/ring                          # remove the emitter and state files
 cp settings.json.pre-ring-bak ~/.claude/settings.json   # restore your original hooks
 ```
 
-The backup `settings.json.pre-ring-bak` is the copy `apply_hooks.py --apply` saved before wiring
-the hooks. (If you'd rather not do a full restore, just delete the `ring-emit` lines it added.)
+`settings.json.pre-ring-bak` is the backup `apply_hooks.py --apply` saved before it touched
+anything. If you'd rather not do a full restore, just delete the `ring-emit` lines it added.
 
 ## Development
 
@@ -190,18 +186,18 @@ the hooks. (If you'd rather not do a full restore, just delete the `ring-emit` l
 swiftc -O src/Ring.swift src/AppCore.swift src/main.swift -o /tmp/dr && /tmp/dr --selftest
 ```
 
-The self-test covers the state-machine reducer, display logic, session eviction, and a
-determinism oracle (same time → identical pixels). `tools/inspect.swift` renders every state and
-Easter egg to PNGs for visual review; `tools/test_emit.py` covers the emitter's decision logic.
+The self-test covers the state-machine reducer, the display logic, session eviction, and a
+determinism check (same time in, identical pixels out). `tools/inspect.swift` renders every state
+and easter egg to PNGs for eyeballing, and `tools/test_emit.py` covers the emitter's logic.
 
 ## Disclaimer
 
-This is an unofficial fan project. _Detroit: Become Human_ is a trademark of **Quantic Dream**;
-this project is **not affiliated with, endorsed by, or sponsored by** Quantic Dream or Sony
-Interactive Entertainment. The ring is an original recreation inspired by the game's android LED —
-it ships no game assets. "Claude Code" is a product of **Anthropic**; this is a community tool and
-is likewise not affiliated with Anthropic.
+Unofficial fan project. _Detroit: Become Human_ is a trademark of Quantic Dream; this isn't
+affiliated with, endorsed by, or sponsored by Quantic Dream or Sony Interactive Entertainment. The
+ring is an original recreation inspired by the game's LED and ships none of the game's assets.
+Claude Code is a product of Anthropic, and this is a community tool, not affiliated with them
+either.
 
 ## License
 
-[MIT](LICENSE) — do whatever you like. Stars and forks welcome. ⭐
+[MIT](LICENSE).
