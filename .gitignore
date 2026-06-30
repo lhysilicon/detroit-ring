@@ -1,0 +1,8 @@
+build/
+*.app/
+*.o
+DerivedData/
+.DS_Store
+# generated locally by apply_hooks.py
+settings.staging.json
+settings.json.pre-ring-bak
